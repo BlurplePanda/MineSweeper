@@ -98,7 +98,15 @@ public class MineSweeper {
      * (This method is not recursive)
      */
     public void tryExpose(int row, int col){
-        /*# YOUR CODE HERE */
+        Square square = this.squares[row][col];
+        if (!(square.isExposed() || square.isMarked())) {
+            if (square.hasMine()) {
+                drawLose();
+            }
+            else {
+                exposeSquareAt(row, col);
+            }
+        }
 
         if (hasWon()){
             drawWin();
