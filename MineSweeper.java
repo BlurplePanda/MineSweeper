@@ -167,7 +167,13 @@ public class MineSweeper {
      * (It doesn't matter if the squares with a mine have been marked or not).
      */
     public boolean hasWon(){
-        /*# YOUR CODE HERE */
+        for (Square[] row : squares) {
+            for (Square square : row) {
+                if (!square.hasMine() && !square.isExposed()) {
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
