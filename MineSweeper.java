@@ -125,7 +125,38 @@ public class MineSweeper {
      *      (be careful not to go over the edges of the map)
      */
     public void exposeSquareAt(int row, int col){
-        /*# YOUR CODE HERE */
+        Square square = this.squares[row][col];
+        if (!square.isExposed()) {
+            square.setExposed();
+            square.draw(row, col);
+            if (square.getAdjacentMines() == 0) {
+                if (row > 0) {
+                    if (col > 0) {
+                        exposeSquareAt(row - 1, col - 1);
+                    }
+                    exposeSquareAt(row - 1, col);
+                    if (col < COLS - 1) {
+                        exposeSquareAt(row - 1, col + 1);
+                    }
+                }
+                if (col > 0) {
+                    exposeSquareAt(row, col - 1);
+                }
+                exposeSquareAt(row, col);
+                if (col < COLS - 1) {
+                    exposeSquareAt(row, col + 1);
+                }
+                if (row < ROWS - 1) {
+                    if (col > 0) {
+                        exposeSquareAt(row + 1, col - 1);
+                    }
+                    exposeSquareAt(row + 1, col);
+                    if (col < COLS - 1) {
+                        exposeSquareAt(row + 1, col + 1);
+                    }
+                }
+            }
+        }
 
     }
 
