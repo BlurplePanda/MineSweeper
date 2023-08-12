@@ -46,6 +46,7 @@ public class MineSweeper {
     private JButton mrkButton;
     private JButton expButton;
     Color defaultColor;
+    public boolean isRunning = true;
 
     /** Set up the GUI: buttons and mouse to play the game */
     public void setupGUI(){
@@ -60,12 +61,17 @@ public class MineSweeper {
 
     /** Respond to mouse events */
     public void doMouse(String action, double x, double y) {
-        if (action.equals("released")){
-            int row = (int)((y-TOP)/SQUARE_SIZE);
-            int col = (int)((x-LEFT)/SQUARE_SIZE);
-            if (row>=0 && row < ROWS && col >= 0 && col < COLS){
-                if (marking) { mark(row, col);}
-                else         { tryExpose(row, col); }
+        if (isRunning) {
+            if (action.equals("released")) {
+                int row = (int) ((y - TOP) / SQUARE_SIZE);
+                int col = (int) ((x - LEFT) / SQUARE_SIZE);
+                if (row >= 0 && row < ROWS && col >= 0 && col < COLS) {
+                    if (marking) {
+                        mark(row, col);
+                    } else {
+                        tryExpose(row, col);
+                    }
+                }
             }
         }
     }
@@ -105,11 +111,10 @@ public class MineSweeper {
             }
             else {
                 exposeSquareAt(row, col);
+                if (hasWon()){
+                    drawWin();
+                }
             }
-        }
-
-        if (hasWon()){
-            drawWin();
         }
     }
 
@@ -229,6 +234,7 @@ public class MineSweeper {
                 this.squares[row][col].setAdjacentMines(count);
             }
         }
+        isRunning = true;
     }
 
     /** Draw a message telling the player they have won */
@@ -236,6 +242,7 @@ public class MineSweeper {
         UI.setFontSize(28);
         UI.drawString("You Win!", LEFT + COLS*SQUARE_SIZE + 20, TOP + ROWS*SQUARE_SIZE/2);
         UI.setFontSize(12);
+        isRunning = false;
     }
 
     /**
@@ -252,6 +259,7 @@ public class MineSweeper {
         UI.setFontSize(28);
         UI.drawString("You Lose!", LEFT + COLS*SQUARE_SIZE+20, TOP + ROWS*SQUARE_SIZE/2);
         UI.setFontSize(12);
+        isRunning = false;
     }
 
     /**
