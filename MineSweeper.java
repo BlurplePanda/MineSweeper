@@ -130,8 +130,25 @@ public class MineSweeper {
      *      (be careful not to go over the edges of the map)
      */
     public void exposeSquareAt(int row, int col){
-        Square square = this.squares[row][col];
-        if (!square.isExposed()) {
+        // better code (alan help)
+        if (row >= ROWS || col >= COLS) {return;}
+        if (row < 0 || col < 0) { return; }
+
+        Square square = this.squares[row][col]; // this line was in both
+
+        if (square.isExposed() || square.isMarked()) {return;}
+
+        square.setExposed();
+        square.draw(row, col);
+        if (square.getAdjacentMines() != 0) {return;}
+        for (int r : new int[] {-1, 0, 1}) {
+            for (int c : new int[] {-1, 0, 1}) {
+                exposeSquareAt(row + r, col + c);
+            }
+        }
+
+        // my code
+        /*if (!square.isExposed()) {
             square.setExposed();
             square.draw(row, col);
             if (square.getAdjacentMines() == 0) {
@@ -161,7 +178,7 @@ public class MineSweeper {
                     }
                 }
             }
-        }
+        }*/
 
     }
 
